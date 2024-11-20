@@ -1,0 +1,597 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+local Window = OrionLib:MakeWindow({
+    Name = "CLARKSHITTER5000",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "CLARKSHITTER5000"
+})
+
+-- Player Tab --
+
+
+local VehicleTab = Window:MakeTab({
+    Name = "Vehicle",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local TeleportationTab = Window:MakeTab({
+    Name = "Teleports",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local MiscTab = Window:MakeTab({
+    Name = "Misc",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local CombatTab = Window:MakeTab({
+    Name = "Combat",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local VehicleSection = VehicleTab:AddSection({
+    Name = "Vehicle"
+})
+
+local MiscSection = MiscTab:AddSection({ -- Changed from VehicleTab to MiscTab
+    Name = "Misc"
+})
+
+local TeleportationSection = TeleportationTab:AddSection({
+    Name = "Areas"
+})
+
+local CombatSection = CombatTab:AddSection({
+    Name = "Combat"
+})
+
+-- Vehicle Section --
+
+VehicleSection:AddSlider({
+    Name = "Wheel Suspension",
+    Min = 0.1,
+    Max = 100,
+    Default = 1,
+    Color = Color3.fromRGB(255,255,255),
+    Increment = 1,
+    ValueName = "Suspension",
+    Callback = function(Value)
+        local seat = game.Players.LocalPlayer.Character.Humanoid.SeatPart
+        if seat and seat.Name == "DriverL" then
+            local vehicle = seat.Parent.Parent
+            if vehicle then
+                local chassis = vehicle:FindFirstChild("Chassis")
+                if chassis then
+                    local RR = chassis:FindFirstChild("RR")
+                    local RL = chassis:FindFirstChild("RL")
+                    local FR = chassis:FindFirstChild("FR")
+                    local FL = chassis:FindFirstChild("FL")
+
+                    local rearProcessed = false
+                    local frontProcessed = false
+
+                    if RR and RL then
+                        warn("Chassis with RR and RL found")
+                        local spring1 = RR:FindFirstChild("SpringConstraint")
+                        local steering1 = RR:FindFirstChild("PrismaticConstraint")
+                        local spring2 = RL:FindFirstChild("SpringConstraint")
+                        local steering2 = RL:FindFirstChild("PrismaticConstraint")
+                        if spring1 and steering1 and spring2 and steering2 then
+                            spring1.FreeLength = Value
+                            spring1.MinLength = Value
+                            steering1.UpperLimit = Value
+                            spring2.FreeLength = Value
+                            spring2.MinLength = Value
+                            steering2.UpperLimit = Value
+                            rearProcessed = true
+                        else
+                            warn("No spring or steering constraint found in RR and RL")
+                        end
+                    end
+
+                    if FR and FL then
+                        warn("Chassis with FR and FL found")
+                        local spring1 = FR:FindFirstChild("SpringConstraint")
+                        local steering1 = FL:FindFirstChild("SteeringServo")
+                        local spring2 = FL:FindFirstChild("SpringConstraint")
+                        local steering2 = FR:FindFirstChild("SteeringServo")
+
+                        if spring1 and steering1 and spring2 and steering2 then
+                            spring1.FreeLength = Value
+                            spring1.MinLength = Value
+                            steering1.UpperLimit = Value
+                            spring2.FreeLength = Value
+                            spring2.MinLength = Value
+                            steering2.UpperLimit = Value
+                            frontProcessed = true
+                        else
+                            warn("No spring or steering constraint found in FR and FL")
+                        end
+                    end
+
+                    if not rearProcessed and not frontProcessed then
+                        warn("No valid tires found")
+                    end
+                else
+                    warn("No chassis found")
+                end
+            else
+                warn("No vehicle found")
+            end
+        else
+            warn("Not in DriverL seat")
+        end
+    end    
+})
+
+VehicleSection:AddSlider({
+    Name = "Camber",
+    Min = -100,
+    Max = 0.1,
+    Default = 5,
+    Color = Color3.fromRGB(255,255,255),
+    Increment = 1,
+    ValueName = "Camber",
+    Callback = function(Value)
+        local seat = game.Players.LocalPlayer.Character.Humanoid.SeatPart
+        if seat and seat.Name == "DriverL" then
+            local vehicle = seat.Parent.Parent
+            if vehicle then
+                local chassis = vehicle:FindFirstChild("Chassis")
+                if chassis then
+                    local FL = chassis:FindFirstChild("FL")
+                    local FR = chassis:FindFirstChild("FR")
+
+                    local rearProcessed = false
+                    local frontProcessed = false
+
+                    if FL and FR then
+                        warn("Chassis with FL and FR found")
+                        local steering1 = FL:FindFirstChild("SteeringServo")
+                        local steering2 = FR:FindFirstChild("SteeringServo")
+
+                        if steering1 and steering2 then
+                            steering1.InclinationAngle = Value
+                            steering2.InclinationAngle = Value
+                            rearProcessed = true
+                        else
+                            warn("No spring or steering constraint found in RR")
+                        end
+                    end
+
+                    if not rearProcessed and not frontProcessed then
+                        warn("No valid tires found")
+                    end
+                else
+                    warn("No chassis found")
+                end
+            else
+                warn("No vehicle found")
+            end
+        else
+            warn("Not in DriverL seat")
+        end
+    end    
+})
+
+VehicleSection:AddSlider({
+    Name = "Gravity (drift your car)",
+    Min = 0.1,
+    Max = 999,
+    Default = 164,
+    Color = Color3.fromRGB(255,255,255),
+    Increment = 1,
+    ValueName = "Gravity",
+    Callback = function(Value)
+        workspace.Gravity = Value
+    end
+})
+
+VehicleSection:AddButton({
+    Name = "Unlock all vehicles (PATCHED FOREVER)",
+    Callback = function()
+        OrionLib:MakeNotification({
+            Name = "Unlock cars",
+            Content = "Due to a recent update this feature has been patched (we literally can't unpatch it cuz its on the server)",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+        --[[
+        Unlocks every car in the game (for the ppl driving it still says locked for them but you can still enter AND YES IT WORKS FOR DRIVER SEATS TOO)
+        --]]
+--[[
+        local Vehicles = workspace:FindFirstChild("Vehicles")
+        if Vehicles then
+            while true do
+                for i, v in pairs(Vehicles:GetChildren()) do
+                    local Chassis = v:FindFirstChild("Chassis")
+                    if Chassis then
+                        local DriverL = Chassis:FindFirstChild("DriverL")
+                        if DriverL then
+                            local Locked = DriverL:GetAttribute("Locked")
+                            local Driver = DriverL:GetAttribute("PlayerVal")
+
+                            if Locked == true then
+                                DriverL:SetAttribute("Locked", false)
+                            end
+
+                            if Driver then
+                                -- Unlocked car with driver
+                            else
+                                -- Unlocked car with no driver
+                            end
+                        end
+                    end
+                end
+                task.wait(0.1)
+            end
+        else
+            warn("No vehicles found in workspace.")
+        end
+        --]]
+    end 
+})
+
+VehicleSection:AddButton({
+    Name = "Blow up car (use while in driver seat and click fling)",
+    Callback = function()
+        loadstring(game:HttpGet(('https://raw.githubusercontent.com/0Ben1/fe/main/obf_rf6iQURzu1fqrytcnLBAvW34C9N55kS9g9G3CKz086rC47M6632sEd4ZZYB0AYgV.lua.txt'), true))()
+    end
+})
+
+-- Teleportation Section --
+
+TeleportationSection:AddButton({
+    Name = "Mersea",
+    Callback = function()
+        local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            hrp.CFrame = CFrame.new(6088, 227, 3002)
+        else
+            warn("HumanoidRootPart not found.")
+        end
+    end
+})
+
+TeleportationSection:AddButton({
+    Name = "Mersea CD",
+    Callback = function()
+        local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            hrp.CFrame = CFrame.new(6387, 227, 3093) -- Removed the trailing '-' and corrected coordinates
+        else
+            warn("HumanoidRootPart not found.")
+        end
+    end
+})
+
+TeleportationSection:AddButton({
+    Name = "Prison",
+    Callback = function()
+        local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            hrp.CFrame = CFrame.new(2516.95117, 252.924255, 2373.13892, 1, 0, 0, 0, 1, 0, 0, 0, 1) -- Removed the trailing '-' and corrected coordinates
+        else
+            warn("HumanoidRootPart not found.")
+        end
+    end
+})
+
+TeleportationSection:AddButton({
+    Name = "Paw",
+    Callback = function()
+        local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            hrp.CFrame = CFrame.new(6336.49951, 554.534241, -1707.90039, 1, 0, 0, 0, 1, 0, 0, 0, 1) -- Removed the trailing '-' and corrected coordinates
+        else
+            warn("HumanoidRootPart not found.")
+        end
+    end
+})
+
+-- Misc Section --
+
+MiscSection:AddButton({
+    Name = "Enable Mod Alerts",
+    Callback = function() -- Changed button name for clarity
+        OrionLib:MakeNotification({
+            Name = "Mod Alert!",
+            Content = "You will now be notified any time a new mod joins.",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        }) -- Properly closed the notification
+
+        local mods = {
+            "Lame_Memes",
+            "101waves",
+            "AlexPueri",
+            "cluggas",
+            "coolg6ry",
+            "domieisok",
+            "isanzw",
+            "mandatorymorale",
+            "vanzeisok",
+        }
+
+        -- Function to check if a player is in the mods list
+        local function isMod(username)
+            for _, modName in pairs(mods) do
+                if username == modName then
+                    return true
+                end
+            end
+            return false
+        end
+
+        -- Event to detect when a player joins the game
+        game.Players.PlayerAdded:Connect(function(player)
+            if isMod(player.Name) then
+                OrionLib:MakeNotification({
+                    Name = "Mod Alert!",
+                    Content = player.Name .. " (MOD) has joined the game.",
+                    Image = "rbxassetid://4483345998",
+                    Time = 5
+                })
+            end
+        end)
+    end
+})
+
+MiscSection:AddButton({
+    Name = "Free handcuff grip",
+    Callback = function()
+        local plr = game.Players.LocalPlayer
+        local char = plr.Character or plr.CharacterAdded:Wait()
+        
+        if char then
+            local isRagdoll = char:FindFirstChild("IsRagdoll")
+            
+            if isRagdoll and isRagdoll:IsA("BoolValue") then
+                isRagdoll.Value = true
+                task.wait(1)
+                isRagdoll.Value = false
+                print("Ragdoll effect toggled")
+            else
+                warn("IsRagdoll BoolValue not found in the character.")
+            end
+        else
+            warn("Character not found.")
+        end
+    end
+})
+
+-- Store the toggle states and their respective connections
+local cashConnection = nil
+local itemConnection = nil
+
+-- Function to handle the toggle actions
+local function handleToggleAction(toggleType, Value)
+    if toggleType == "Cash" then
+        if Value then
+            OrionLib:MakeNotification({
+                Name = "Cash!",
+                Content = "You will now be teleported to cash every time it's dropped.",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+            
+            -- Add the logic to handle cash collection
+            local function checkForCash(part)
+                if part:IsA("MeshPart") and part.Name == "Cash" then
+                    local hrp = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                    if hrp then
+                        local posBefore = hrp.CFrame
+                        hrp.CFrame = part:GetPivot()
+                        wait(0.1)
+                        hrp.CFrame = posBefore
+                    end
+                end
+            end
+
+            -- Start checking for cash in the game
+            for _, obj in pairs(workspace:GetChildren()) do
+                checkForCash(obj)
+            end
+
+            -- Connect to detect when new cash is dropped
+            cashConnection = workspace.Functions.InvisibleParts.ChildAdded:Connect(checkForCash)
+        else
+            OrionLib:MakeNotification({
+                Name = "Cash!",
+                Content = "You will no longer be teleported to cash when it's dropped.",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+
+            -- Disconnect the connection when toggle is turned off
+            if cashConnection then
+                cashConnection:Disconnect()
+                cashConnection = nil
+            end
+        end
+    elseif toggleType == "Items" then
+        if Value then
+            OrionLib:MakeNotification({
+                Name = "Dropped items!",
+                Content = "You will now be teleported to items every time they are dropped.",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+
+            -- Add the logic to handle item collection
+            local function checkForItems(part)
+                if part:IsA("Model") then
+                    local hrp = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                    if hrp then
+                        local posBefore = hrp.CFrame
+                        hrp.CFrame = part:GetPivot()
+                        wait(0.1)
+                        hrp.CFrame = posBefore
+                    end
+                end
+            end
+
+            -- Start checking for dropped items in the game
+            for _, obj in pairs(workspace.Functions.InvisibleParts:GetChildren()) do
+                checkForItems(obj)
+            end
+
+            -- Connect to detect when new items are dropped
+            itemConnection = workspace.Functions.InvisibleParts.ChildAdded:Connect(checkForItems)
+        else
+            OrionLib:MakeNotification({
+                Name = "Dropped items!",
+                Content = "You will no longer be teleported to items when they're dropped.",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+
+            -- Disconnect the connection when toggle is turned off
+            if itemConnection then
+                itemConnection:Disconnect()
+                itemConnection = nil
+            end
+        end
+    end
+end
+
+-- Add the toggle for "Steal all cash"
+MiscSection:AddToggle({
+    Name = "Steal all cash",
+    Default = false,
+    Callback = function(Value)
+        handleToggleAction("Cash", Value)
+    end
+})
+
+-- Add the toggle for "Steal all dropped items"
+MiscSection:AddToggle({
+    Name = "Steal all dropped items",
+    Default = false,
+    Callback = function(Value)
+        handleToggleAction("Items", Value)
+    end
+})
+
+VehicleSection:AddToggle({
+    Name = "Easy Desync (FIXED)",
+    Default = false,
+    Callback = function(Value)
+        local function setCanCollide(folder, newValue)
+            for _, child in pairs(folder:GetChildren()) do
+                if child:IsA("Folder") then
+                    -- If the child is a Folder, recursively process it
+                    setCanCollide(child, newValue)
+                elseif child:IsA("BasePart") then
+                    -- If the child is a BasePart, modify CanCollide
+                    child.CanCollide = newValue
+                end
+            end
+        end
+
+        local seat = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") and game.Players.LocalPlayer.Character.Humanoid.SeatPart
+        if seat and seat.Name == "DriverL" then
+            local vehicle = seat.Parent and seat.Parent.Parent -- Ensure parent exists before accessing Parent.Parent
+            if vehicle then
+                local body = vehicle:FindFirstChild("Body")
+                if body then
+                    -- Set CanCollide based on the toggle value
+                    setCanCollide(body, not Value) -- If Value is true, set CanCollide to false (not Value)
+                else
+                    warn("No body found in vehicle")
+                end
+            else
+                warn("No vehicle found")
+            end
+        else
+            warn("Not in DriverL seat")
+        end
+    end
+})
+
+VehicleSection:AddButton({
+  Name = "Fling car (must be in driver seat)",
+    Callback = function() -- Changed button name for clarity
+        --unpatched vehicle unlock
+--devs never try to patch anything ever again LMFAO
+local Vehicles = workspace:FindFirstChild("Vehicles")
+
+local plr = game.Players.LocalPlayer
+local character = plr.Character -- Ensure the player's character exists
+local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart") -- The root part for teleportation
+
+if Vehicles and humanoidRootPart then
+    for i, v in pairs(Vehicles:GetChildren()) do
+        local Chassis = v:FindFirstChild("Chassis")
+        local Body = v:FindFirstChild("Body")
+        if Chassis then
+            local DriverL = Chassis:FindFirstChild("DriverL")
+            if DriverL then
+                local beforeCF = humanoidRootPart.CFrame
+                local flingPart = Instance.new("Part")
+                flingPart.Size = Vector3.new(1, 1, 1)
+                flingPart.Anchored = true
+                flingPart.Position = DriverL.Position + Vector3.new(0, 1000, 0)
+                flingPart.Parent = Body
+                
+                -- Teleport the player to the position of flingPart
+                humanoidRootPart.CFrame = flingPart.CFrame
+                wait(1)
+                humanoidRootPart.CFrame = flingPart.CFrame
+                wait(1)
+                humanoidRootPart.CFrame = beforeCF
+            end
+        end
+    end
+end
+
+    end
+})
+
+
+-- Ensure toggles are turned off after the player dies
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+    -- Disable toggles when player respawns
+    -- Reset the toggle values to false to ensure they turn off
+    local stealCashToggle = MiscSection:GetToggle("Steal all cash")
+    if stealCashToggle then
+        stealCashToggle:Set(false)  -- Turn off the "Steal all cash" toggle
+    end
+
+    local stealItemsToggle = MiscSection:GetToggle("Steal all dropped items")
+    if stealItemsToggle then
+        stealItemsToggle:Set(false)  -- Turn off the "Steal all dropped items" toggle
+    end
+
+    -- Disconnect the connections safely
+    if cashConnection then
+        cashConnection:Disconnect()
+        cashConnection = nil
+    end
+
+    if itemConnection then
+        itemConnection:Disconnect()
+        itemConnection = nil
+    end
+end)
+
+CombatSection:AddButton({
+  Name = "Aimbot",
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ttwizz/Open-Aimbot/refs/heads/master/source.lua"))()
+end
+})
+
+CombatSection:AddLabel("aimbot also has esp btw")
+
+
+-- Player Tab End --
+
+-- Settings End --
+
+OrionLib:Init() -- UI Lib End
