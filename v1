@@ -366,8 +366,8 @@ MiscSection:AddButton({
 })
 
 -- Store the toggle states and their respective connections
-local cashConnection = nil
-local itemConnection = nil
+local cashConnection = false
+local itemConnection = false
 
 -- Function to handle the toggle actions
 local function handleToggleAction(toggleType, Value)
@@ -383,6 +383,7 @@ local function handleToggleAction(toggleType, Value)
             -- Add the logic to handle cash collection
             local function checkForCash(part)
                 if part:IsA("MeshPart") and part.Name == "Cash" then
+                    warn("CASH FOUND!!!")
                     local hrp = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
                     if hrp then
                         local posBefore = hrp.CFrame
@@ -395,7 +396,9 @@ local function handleToggleAction(toggleType, Value)
 
             -- Start checking for cash in the game
             for _, obj in pairs(workspace:GetChildren()) do
+                warn("checking for cash")
                 checkForCash(obj)
+                warn("ran cashs ufnction")
             end
 
             -- Connect to detect when new cash is dropped
@@ -465,9 +468,54 @@ MiscSection:AddToggle({
     Name = "Steal all cash",
     Default = false,
     Callback = function(Value)
-        handleToggleAction("Cash", Value)
+        if Value then
+            OrionLib:MakeNotification({
+                Name = "Cash!",
+                Content = "You will now be teleported to cash every time it's dropped.",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+            
+            -- Function to check for cash and teleport the player
+            local function checkForCash(part)
+                if part:IsA("MeshPart") and part.Name == "Cash" then
+                    warn("Cash found!")
+                    local hrp = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                    if hrp then
+                        local posBefore = hrp.CFrame
+                        hrp.CFrame = part.CFrame -- Teleport to the cash position
+                        task.wait(0.1)
+                        hrp.CFrame = posBefore -- Return to original position
+                    end
+                end
+            end
+
+            -- Initial search for existing cash in the workspace
+            for _, obj in pairs(workspace:GetDescendants()) do
+                checkForCash(obj)
+            end
+
+            -- Connect to the ChildAdded event to detect new cash
+            cashConnection = workspace.DescendantAdded:Connect(function(obj)
+                checkForCash(obj)
+            end)
+        else
+            OrionLib:MakeNotification({
+                Name = "Cash!",
+                Content = "You will no longer be teleported to cash when it's dropped.",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+
+            -- Disconnect the connection to stop detecting cash
+            if cashConnection then
+                cashConnection:Disconnect()
+                cashConnection = nil
+            end
+        end
     end
 })
+
 
 -- Add the toggle for "Steal all dropped items"
 MiscSection:AddToggle({
@@ -544,7 +592,7 @@ if Vehicles and humanoidRootPart then
                 wait(1)
                 humanoidRootPart.CFrame = flingPart.CFrame
                 wait(1)
-                humanoidRootPart.CFrame = beforeCF'
+                humanoidRootPart.CFrame = beforeCF
                 break
             end
         end
