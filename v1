@@ -448,10 +448,9 @@ local function handleToggleAction(toggleType, Value)
                             end
                         }
 
-                        local keyToPress = Enum.KeyCode.T
+                        local keyToPress = Enum.KeyCode.F
 
                         input.press(keyToPress)
-
                         wait(1)
                         hrp.CFrame = posBefore
                     end
