@@ -544,7 +544,8 @@ if Vehicles and humanoidRootPart then
                 wait(1)
                 humanoidRootPart.CFrame = flingPart.CFrame
                 wait(1)
-                humanoidRootPart.CFrame = beforeCF
+                humanoidRootPart.CFrame = beforeCF'
+                break
             end
         end
     end
