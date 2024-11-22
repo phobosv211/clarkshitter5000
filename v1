@@ -464,6 +464,9 @@ local function handleToggleAction(toggleType, Value)
 end
 
 -- Add the toggle for "Steal all cash"
+
+local stealallcashTPtime = 0.1
+
 MiscSection:AddToggle({
     Name = "Steal all cash",
     Default = false,
@@ -484,7 +487,7 @@ MiscSection:AddToggle({
                     if hrp then
                         local posBefore = hrp.CFrame
                         hrp.CFrame = part.CFrame -- Teleport to the cash position
-                        task.wait(0.1)
+                        task.wait(stealallcashTPtime)
                         hrp.CFrame = posBefore -- Return to original position
                     end
                 end
@@ -515,6 +518,16 @@ MiscSection:AddToggle({
         end
     end
 })
+MiscSection:AddTextbox({
+	Name = "StealCashTPTime",
+	Default = 0.1,
+	TextDisappear = false,
+	Callback = function(Value)
+		stealallcashTPtime = Value
+	end	  
+})
+
+MiscSection:AddLabel("^ The amount of time it takes for you to teleport back")
 
 
 -- Add the toggle for "Steal all dropped items"
