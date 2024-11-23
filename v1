@@ -633,6 +633,21 @@ end
 })
 
 
+MiscSection:AddButton({
+    Name = "Remove gameplay paused",
+    Callback = function()
+       game.Workspace.StreamingEnabled = false
+
+        OrionLib:MakeNotification({
+        Name = "Gameplay paused",
+        Content = "Successfully disabled gameplay paused!",
+        Image = "rbxassetid://4483345998",
+        Time = 5
+    })
+    end
+})
+
+
 -- Ensure toggles are turned off after the player dies
 game.Players.LocalPlayer.CharacterAdded:Connect(function()
     -- Disable toggles when player respawns
