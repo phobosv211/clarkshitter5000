@@ -46,6 +46,10 @@ local TeleportationSection = TeleportationTab:AddSection({
     Name = "Areas"
 })
 
+local IllegalDealersSection = TeleportationTab:AddSection({
+    Name = "Illegal Dealers"
+})
+
 local CombatSection = CombatTab:AddSection({
     Name = "Combat"
 })
@@ -294,6 +298,19 @@ TeleportationSection:AddButton({
     end
 })
 
+
+IllegalDealersSection:AddButton({
+    Name = "R21A Dealer",
+    Callback = function()
+        local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            hrp.CFrame = CFrame.new(6397, 214, 2903)
+        else
+            warn("HumanoidRootPart not found.")
+        end
+    end
+})
+
 -- Misc Section --
 
 MiscSection:AddButton({
@@ -433,25 +450,7 @@ local function handleToggleAction(toggleType, Value)
                     if hrp then
                         local posBefore = hrp.CFrame
                         hrp.CFrame = part:GetPivot()
-                        local vim = game:GetService('VirtualInputManager')
-
-                        local input = {
-                            hold = function(key, time)
-                                vim:SendKeyEvent(true, key, false, game)
-                                task.wait(time)
-                                vim:SendKeyEvent(false, key, false, game)
-                            end,
-                            press = function(key)
-                                vim:SendKeyEvent(true, key, false, game)
-                                task.wait(0.005)
-                                vim:SendKeyEvent(false, key, false, game)
-                            end
-                        }
-
-                        local keyToPress = Enum.KeyCode.F
-
-                        input.press(keyToPress)
-                        wait(1)
+                        wait(0.1)
                         hrp.CFrame = posBefore
                     end
                 end
