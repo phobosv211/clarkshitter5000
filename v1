@@ -658,6 +658,8 @@ function updateMaterial(part)
     end
 end
 
+
+
 game.DescendantAdded:Connect(function(descendant)
     updateMaterial(descendant)
 end)
@@ -675,6 +677,14 @@ end
     end
 })
 
+MiscSection:AddButton({
+    Name = "FE Chat Bypasser",
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1price/usercreation/main/UserCreation.lua", true))()
+end
+})
+
+MiscSection:AddLabel('KEY FOR CHAT BYPASS: "iammusic"')
 -- Ensure toggles are turned off after the player dies
 game.Players.LocalPlayer.CharacterAdded:Connect(function()
     -- Disable toggles when player respawns
