@@ -647,6 +647,33 @@ MiscSection:AddButton({
     end
 })
 
+MiscSection:AddButton({
+    Name = "Remove slippery roads (WINTER) + MAY CAUSE LAG",
+    Callback = function()
+function updateMaterial(part)
+    if part:IsA("BasePart") and part.Name == "Asphalt" then
+        if part.Material ~= Enum.Material.Pebble then
+            part.Material = Enum.Material.Pebble
+        end
+    end
+end
+
+game.DescendantAdded:Connect(function(descendant)
+    updateMaterial(descendant)
+end)
+
+for _, descendant in ipairs(game:GetDescendants()) do
+    updateMaterial(descendant)
+end
+
+        OrionLib:MakeNotification({
+        Name = "Slippery Roads",
+        Content = "Successfully removed slippery roads!",
+        Image = "rbxassetid://4483345998",
+        Time = 5
+    })
+    end
+})
 
 -- Ensure toggles are turned off after the player dies
 game.Players.LocalPlayer.CharacterAdded:Connect(function()
