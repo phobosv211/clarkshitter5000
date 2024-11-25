@@ -311,6 +311,31 @@ IllegalDealersSection:AddButton({
     end
 })
 
+IllegalDealersSection:AddButton({
+    Name = "Lockpick Dealer",
+    Callback = function()
+        local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            hrp.CFrame = CFrame.new(-2422, 217, -1185)
+        else
+            warn("HumanoidRootPart not found.")
+        end
+    end
+})
+
+IllegalDealersSection:AddButton({
+    Name = "Laundromat Dealer",
+    Callback = function()
+        local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            hrp.CFrame = CFrame.new(-1962, 210, -942)
+        else
+            warn("HumanoidRootPart not found.")
+        end
+    end
+})
+
+
 -- Misc Section --
 
 MiscSection:AddButton({
