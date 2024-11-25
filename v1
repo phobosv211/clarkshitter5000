@@ -483,8 +483,7 @@ local function checkForCash(part)
             local keyToPress = Enum.KeyCode.F
 
             input.press(keyToPress)
-            wait(0.5)
-            hrp.CFrame = part:GetPivot()
+            wait(1.5)
             hrp.CFrame = posBefore
         else
             warn("HumanoidRootPart not found.")
