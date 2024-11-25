@@ -323,6 +323,18 @@ IllegalDealersSection:AddButton({
     end
 })
 
+TeleportationSection:AddButton({
+    Name = "Mersea Bank",
+    Callback = function()
+        local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            hrp.CFrame = CFrame.new(6216, 227, 2621) -- Removed the trailing '-' and corrected coordinates
+        else
+            warn("HumanoidRootPart not found.")
+        end
+    end
+})
+
 IllegalDealersSection:AddButton({
     Name = "Laundromat Dealer",
     Callback = function()
