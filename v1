@@ -1,10 +1,10 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
 local Window = OrionLib:MakeWindow({
-    Name = "CLARKSHITTER5000",
+    Name = "CLARKSHITTER6000",
     HidePremium = false,
     SaveConfig = true,
-    ConfigFolder = "CLARKSHITTER5000"
+    ConfigFolder = "CLARKSHITTER6000"
 })
 
 -- Player Tab --
@@ -38,7 +38,7 @@ local VehicleSection = VehicleTab:AddSection({
     Name = "Vehicle"
 })
 
-local MiscSection = MiscTab:AddSection({ -- Changed from VehicleTab to MiscTab
+local MiscSection = MiscTab:AddSection({
     Name = "Misc"
 })
 
@@ -443,26 +443,65 @@ local function handleToggleAction(toggleType, Value)
                 Time = 5
             })
 
-            -- Add the logic to handle item collection
-            local function checkForItems(part)
-                if part:IsA("Model") then
-                    local hrp = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-                    if hrp then
-                        local posBefore = hrp.CFrame
-                        hrp.CFrame = part:GetPivot()
-                        wait(0.1)
-                        hrp.CFrame = posBefore
-                    end
+           local isActive = true
+
+local function checkForCash(part)
+    if not isActive then
+        warn("Script is not active.")
+        return
+    end
+
+    -- Ensure the added part is a Model and has a valid CFrame property
+    if part:IsA("Model") then
+        local hrp = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+
+        if hrp then
+            -- Store the initial position of the player
+            local posBefore = hrp.CFrame
+            warn("Drop detected: " .. part.Name)
+
+            -- Teleport to the part's position
+            hrp.CFrame = part:GetPivot() -- Using `GetPivot()` for models
+            wait(0.1)
+            hrp.CFrame = part:GetPivot()
+            wait(2)
+            local vim = game:GetService('VirtualInputManager')
+
+            local input = {
+                hold = function(key, time)
+                    vim:SendKeyEvent(true, key, false, game)
+                    task.wait(time)
+                    vim:SendKeyEvent(false, key, false, game)
+                end,
+                press = function(key)
+                    vim:SendKeyEvent(true, key, false, game)
+                    task.wait(0.005)
+                    vim:SendKeyEvent(false, key, false, game)
                 end
-            end
+            }
 
-            -- Start checking for dropped items in the game
-            for _, obj in pairs(workspace.Functions.InvisibleParts:GetChildren()) do
-                checkForItems(obj)
-            end
+            local keyToPress = Enum.KeyCode.F
 
-            -- Connect to detect when new items are dropped
-            itemConnection = workspace.Functions.InvisibleParts.ChildAdded:Connect(checkForItems)
+            input.press(keyToPress)
+            wait(0.5)
+            hrp.CFrame = part:GetPivot()
+            hrp.CFrame = posBefore
+        else
+            warn("HumanoidRootPart not found.")
+        end
+    else
+        warn("Added object is not a Model.")
+    end
+end
+
+-- Iterate through existing objects in the target group and check for cash
+for _, obj in pairs(workspace.Functions.InvisibleParts:GetChildren()) do
+    checkForCash(obj)
+end
+
+-- Connect to detect when new children are added
+workspace.Functions.InvisibleParts.ChildAdded:Connect(checkForCash)
+
         else
             OrionLib:MakeNotification({
                 Name = "Dropped items!",
