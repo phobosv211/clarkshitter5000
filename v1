@@ -34,6 +34,12 @@ local CombatTab = Window:MakeTab({
     PremiumOnly = false
 })
 
+local RobberyTab = Window:MakeTab({
+    Name = "Robbery",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
 local VehicleSection = VehicleTab:AddSection({
     Name = "Vehicle"
 })
@@ -52,6 +58,10 @@ local IllegalDealersSection = TeleportationTab:AddSection({
 
 local CombatSection = CombatTab:AddSection({
     Name = "Combat"
+})
+
+local RobberySection = RobberyTab:AddSection({
+    Name = "Robbery"
 })
 
 -- Vehicle Section --
@@ -793,11 +803,299 @@ CombatSection:AddButton({
 end
 })
 
-CombatSection:AddLabel("aimbot also has esp btw")
+CombatSection:AddLabel("Aimbot also has esp")
+
+RobberySection:AddButton({
+    Name = "Auto Rob",
+    Callback = function()
+        OrionLib:MakeNotification({
+            Name = "Auto Rob",
+            Content = "Starting..",
+            Image = "rbxassetid://4483345998",
+            Time = 2
+        })
+
+        -- Get the necessary services
+        local Players = game:GetService("Players")
+        local player = Players.LocalPlayer
+        local playerGui = player:WaitForChild("PlayerGui")
+        local bankFrame = playerGui.Information.BottomLeftFrame.BankFrame
+        local cashTextLabel = bankFrame:GetChildren()[3]:GetChildren()[3].TextLabel
+
+        local cashText = cashTextLabel.Text
+        local cashValue = tonumber(cashText:match("%d+"))
+
+        -- Only run the script if the cash value is above 250
+        if cashValue and cashValue >= 250 then
+            OrionLib:MakeNotification({
+                Name = "Auto Rob",
+                Content = "Buying lockpick..",
+                Image = "rbxassetid://4483345998",
+                Time = 10
+            })
+            -- Autofarm bank
+            -- Clark County
+            -- Developed by EDS
+
+            -- Clicked
+            local hrp = player.Character:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                hrp.CFrame = CFrame.new(-2410, 233, -1175)
+                hrp.Anchored = true
+                wait(2)
+                hrp.CFrame = CFrame.new(-2410, 233, -1175)
+                hrp.Anchored = false
+            else
+                warn("HumanoidRootPart not found.")
+            end
+            wait(1)
+
+            local vim = game:GetService('VirtualInputManager')
+            local input = {
+                press = function(key)
+                    vim:SendKeyEvent(true, key, false, game)
+                    task.wait(0.005)
+                    vim:SendKeyEvent(false, key, false, game)
+                end
+            }
+
+            local keyToPress = Enum.KeyCode.F
+            input.press(keyToPress)
+            wait(5)
+
+            -- Wait for the game window to be active
+            while not isrbxactive() do
+                OrionLib:MakeNotification({
+                    Name = "Auto Rob",
+                    Content = "Click into your ROBLOX to start.",
+                    Image = "rbxassetid://4483345998",
+                    Time = 5
+                })
+                task.wait()
+            end
+
+            -- Function to move the mouse smoothly
+            local function smoothMouseMove(targetX, targetY, duration)
+                local currentX, currentY = 0, 0
+                local UserInputService = game:GetService("UserInputService")
+                local mouseLocation = UserInputService:GetMouseLocation()
+                currentX, currentY = mouseLocation.X, mouseLocation.Y
+
+                local stepCount = 60
+                local stepDelay = duration / stepCount
+
+                for i = 1, stepCount do
+                    local alpha = i / stepCount
+                    local newX = currentX + (targetX - currentX) * alpha
+                    local newY = currentY + (targetY - currentY) * alpha
+                    mousemoveabs(newX, newY)
+                    task.wait(stepDelay)
+                end
+
+                mousemoveabs(targetX, targetY)
+            end
+
+            -- Locate the Lockpick button and Buy button
+            local jahGui = playerGui:WaitForChild("Windows"):WaitForChild("'Jah'")
+            local lockpickButton = jahGui:WaitForChild("BottomFrame")
+                :WaitForChild("ContentViewFrame")
+                :WaitForChild("ContentFrame")
+                :WaitForChild("SplitPane")
+                :WaitForChild("ScrollingFrame")
+                :FindFirstChild("Lockpick")
+            local buyButton = jahGui:WaitForChild("BottomFrame")
+                :WaitForChild("ContentViewFrame")
+                :WaitForChild("ContentFrame")
+                :WaitForChild("SplitPane")
+                :WaitForChild("Frame")
+                :FindFirstChild("ImageButton")
+
+            if lockpickButton and buyButton then
+                local lockpickCenter = lockpickButton.AbsolutePosition + (lockpickButton.AbsoluteSize / 2)
+                lockpickCenter = lockpickCenter + Vector2.new(0, 5)
+                local buyCenter = buyButton.AbsolutePosition + (buyButton.AbsoluteSize / 2)
+                buyCenter = buyCenter + Vector2.new(0, 45)
+
+                smoothMouseMove(lockpickCenter.X, lockpickCenter.Y, 1)
+                mouse1click()
+                print("Lockpick button clicked!")
+
+                task.wait(0.5)
+
+                smoothMouseMove(buyCenter.X, buyCenter.Y, 1)
+                mouse1click()
+                print("Buy button clicked!")
+            else
+                if not lockpickButton then warn("Lockpick button not found!") end
+                if not buyButton then warn("Buy button not found!") end
+            end
+
+            OrionLib:MakeNotification({
+                Name = "Auto Rob",
+                Content = "Lockpicking bank door..",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+
+            if hrp then
+                hrp.CFrame = CFrame.new(6231, 215, 2584)
+                hrp.Anchored = true
+                wait(2)
+                hrp.CFrame = CFrame.new(6231, 215, 2584)
+                hrp.Anchored = false
+            else
+                warn("HumanoidRootPart not found.")
+            end
+            wait(2)
+
+            local input = {
+                hold = function(key)
+                    vim:SendKeyEvent(true, key, false, game)
+                    task.wait(7)
+                    vim:SendKeyEvent(false, key, false, game)
+                end
+            }
+
+            local keyToPress = Enum.KeyCode.L
+            input.hold(keyToPress)
+            wait(0.5)
+
+            wait(1)
+            if hrp then
+                hrp.CFrame = CFrame.new(6222, 211, 2567)
+            else
+                warn("HumanoidRootPart not found.")
+            end
+            wait(0.5)
+
+            OrionLib:MakeNotification({
+                Name = "Auto Rob",
+                Content = "STATUS: ROBBING CASH 1",
+                Image = "rbxassetid://4483345998",
+                Time = 2
+            })
+
+            local input = {
+                hold = function(key)
+                    vim:SendKeyEvent(true, key, false, game)
+                    task.wait(7)
+                    vim:SendKeyEvent(false, key, false, game)
+                end
+            }
+
+            local keyToPress = Enum.KeyCode.H
+            input.hold(keyToPress)
+            wait(0.1)
+            if hrp then
+                hrp.CFrame = CFrame.new(6211, 211, 2591)
+            else
+                warn("HumanoidRootPart not found.")
+            end
+            wait(0.5)
+
+            OrionLib:MakeNotification({
+                Name = "Auto Rob",
+                Content = "STATUS: ROBBING CASH 2",
+                Image = "rbxassetid://4483345998",
+                Time = 2
+            })
+
+            input.hold(keyToPress)
+            wait(0.1)
+            if hrp then
+                hrp.CFrame = CFrame.new(6211, 211, 2572)
+            else
+                warn("HumanoidRootPart not found.")
+            end
+            wait(0.5)
+
+            OrionLib:MakeNotification({
+                Name = "Auto Rob",
+                Content = "STATUS: ROBBING CASH 3",
+                Image = "rbxassetid://4483345998",
+                Time = 2
+            })
+
+            input.hold(keyToPress)
+            wait(0.1)
+            if hrp then
+                hrp.CFrame = CFrame.new(6210, 211, 2555)
+            else
+                warn("HumanoidRootPart not found.")
+            end
+            wait(0.5)
+
+            OrionLib:MakeNotification({
+                Name = "Auto Rob",
+                Content = "STATUS: ROBBING CASH 4",
+                Image = "rbxassetid://4483345998",
+                Time = 2
+            })
+
+            input.hold(keyToPress)
+            wait(0.1)
+
+            OrionLib:MakeNotification({
+                Name = "Auto Rob",
+                Content = "ROBBED SUCCESS! | SELLING NOW",
+                Image = "rbxassetid://4483345998",
+                Time = 10
+            })
+
+            if hrp then
+                hrp.CFrame = CFrame.new(-1981, 210, -911)
+            else
+                warn("HumanoidRootPart not found.")
+            end
+            wait(0.5)
+              local input = {
+                hold = function(key)
+                    vim:SendKeyEvent(true, key, false, game)
+                    task.wait(3)
+                    vim:SendKeyEvent(false, key, false, game)
+                end
+            }
+
+            local keyToPress = Enum.KeyCode.H
+
+            input.hold(keyToPress)
+            wait(0.5)
+            input.hold(keyToPress)
+            wait(0.5)
+            input.hold(keyToPress)
+            wait(0.5)
+            input.hold(keyToPress)
+            wait(1)
+
+           if hrp then
+                hrp.CFrame = CFrame.new(-2410, 233, -1175)
+                hrp.Anchored = true
+                wait(2)
+                hrp.CFrame = CFrame.new(-2410, 233, -1175)
+                hrp.Anchored = false
+                 OrionLib:MakeNotification({
+                Name = "Auto Rob",
+                Content = "FINISHED ROBBERY!,
+                Image = "rbxassetid://4483345998",
+                Time = 5,
+            })
+            else
+                warn("HumanoidRootPart not found.")
+            end
+
+        else
+            OrionLib:MakeNotification({
+                Name = "Auto Rob",
+                Content = "Not enough cash to buy lockpicks",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+        end
+    end
+})
 
 
--- Player Tab End --
+RobberySection:AddParagraph("HOW TO USE:","Start off with 250 money in your wallet, this ensures we can buy a lockpick to rob. Next just click auto rob and we will do the rest for you. (DO NOT INTERVENE WHILE WE ARE ROBBING OR ELSE IT MAY BREAK!)")
 
--- Settings End --
 
 OrionLib:Init() -- UI Lib End
