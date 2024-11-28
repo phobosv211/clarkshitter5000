@@ -1075,7 +1075,7 @@ RobberySection:AddButton({
                 hrp.Anchored = false
                  OrionLib:MakeNotification({
                 Name = "Auto Rob",
-                Content = "FINISHED ROBBERY!,
+                Content = "FINISHED ROBBERY!",
                 Image = "rbxassetid://4483345998",
                 Time = 5,
             })
