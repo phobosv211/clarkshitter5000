@@ -1,6 +1,10 @@
+-- Load OrionLib
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+-- Define URL to fetch keys
 local url = "https://raw.githubusercontent.com/phobosv211/clarkshitter5000/refs/heads/main/keys"
 
+-- Fetch the keys from the URL
 local function fetchKeys()
     local success, result = pcall(function()
         return game:HttpGet(url)
@@ -33,18 +37,35 @@ local function isKeyValid(key, keyList)
     return false
 end
 
-local h = getgenv().key
-warn(h)
-if isKeyValid(h, keyList) then --getgenv().key
-OrionLib:MakeNotification({
-    Name = "CLARKSHITTER6000",
-    Content = "Checking..",
-    Image = "rbxassetid://4483345998",
-    Time = 5
-})
---start script
+-- Fetch the valid keys and parse them
+local rawKeys = fetchKeys()
+local keyList = {}
+if rawKeys then
+    keyList = parseKeys(rawKeys) -- Parse keys to remove "| T"
+else
+    warn("Failed to fetch key list")
+end
 
-local Window = OrionLib:MakeWindow({
+-- Retrieve the key entered by the user
+local h = getgenv().key
+
+-- Check if the entered key is valid
+if isKeyValid(h, keyList) then
+    OrionLib:MakeNotification({
+        Name = "CLARKSHITTER6000",
+        Content = "Checking..",
+        Image = "rbxassetid://4483345998",
+        Time = 1,
+    })
+    wait(1.5)
+      OrionLib:MakeNotification({
+        Name = "CLARKSHITTER6000",
+        Content = "Valid! Starting..",
+        Image = "rbxassetid://4483345998",
+        Time = 5
+    })
+
+    local Window = OrionLib:MakeWindow({
     Name = "CLARKSHITTER6000",
     HidePremium = false,
     SaveConfig = true,
@@ -1256,14 +1277,13 @@ RobberySection:AddButton({
 
 RobberySection:AddParagraph("HOW TO USE:","Start off with 250 money in your wallet, this ensures we can buy a lockpick to rob. Next just click auto rob and we will do the rest for you. (DO NOT INTERVENE WHILE WE ARE ROBBING OR ELSE IT MAY BREAK!)")
 
+    OrionLib:Init()
 else
-OrionLib:MakeNotification({
-    Name = "CLARKSHITTER6000",
-    Content = "yeah this is what you get for trying to crack a key loser",
-    Image = "rbxassetid://4483345998",
-    Time = 5
-})
-game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100 --auto ban
+    -- If the key is invalid, show a notification
+    OrionLib:MakeNotification({
+        Name = "CLARKSHITTER6000",
+        Content = "Invalid key, get your key in our discord | https://discord.gg/2Hbzg2W3J6",
+        Image = "rbxassetid://4483345998",
+        Time = 5
+    })
 end
-
-OrionLib:Init() -- UI Lib End
