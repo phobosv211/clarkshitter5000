@@ -34,7 +34,7 @@ local function isKeyValid(key, keyList)
 end
 
 local h = getgenv().key
-
+warn(h)
 if isKeyValid(h, keyList) then --getgenv().key
 OrionLib:MakeNotification({
     Name = "CLARKSHITTER6000",
