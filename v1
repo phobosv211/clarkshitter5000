@@ -1,4 +1,48 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local url = "https://raw.githubusercontent.com/phobosv211/clarkshitter5000/refs/heads/main/keys"
+
+local function fetchKeys()
+    local success, result = pcall(function()
+        return game:HttpGet(url)
+    end)
+
+    if success then
+        return result
+    else
+        return nil
+    end
+end
+
+-- Parse the keys to remove the "| T" part
+local function parseKeys(rawKeys)
+    local keys = {}
+    for key in string.gmatch(rawKeys, "[^\r\n]+") do
+        local parsedKey = string.match(key, "^(%S+)")
+        table.insert(keys, parsedKey)
+    end
+    return keys
+end
+
+-- Check if the entered key is valid
+local function isKeyValid(key, keyList)
+    for _, validKey in ipairs(keyList) do
+        if key == validKey then
+            return true
+        end
+    end
+    return false
+end
+
+local h = getgenv().key
+
+if isKeyValid(h, keyList) then --getgenv().key
+OrionLib:MakeNotification({
+    Name = "CLARKSHITTER6000",
+    Content = "Checking..",
+    Image = "rbxassetid://4483345998",
+    Time = 5
+})
+--start script
 
 local Window = OrionLib:MakeWindow({
     Name = "CLARKSHITTER6000",
@@ -8,6 +52,7 @@ local Window = OrionLib:MakeWindow({
 })
 
 -- Player Tab --
+
 
 
 local VehicleTab = Window:MakeTab({
@@ -266,6 +311,10 @@ TeleportationSection:AddButton({
         local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
         if hrp then
             hrp.CFrame = CFrame.new(6088, 227, 3002)
+            hrp.Anchored = true
+            wait(2)
+            hrp.CFrame = CFrame.new(6088, 227, 3002)
+            hrp.Anchored = false
         else
             warn("HumanoidRootPart not found.")
         end
@@ -277,7 +326,11 @@ TeleportationSection:AddButton({
     Callback = function()
         local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
         if hrp then
-            hrp.CFrame = CFrame.new(6387, 227, 3093) -- Removed the trailing '-' and corrected coordinates
+            hrp.CFrame = CFrame.new(6387, 227, 3093)
+            hrp.Anchored = true
+            wait(2)
+            hrp.CFrame = CFrame.new(6387, 227, 3093)
+            hrp.Anchored = false
         else
             warn("HumanoidRootPart not found.")
         end
@@ -301,7 +354,11 @@ TeleportationSection:AddButton({
     Callback = function()
         local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
         if hrp then
-            hrp.CFrame = CFrame.new(6336.49951, 554.534241, -1707.90039, 1, 0, 0, 0, 1, 0, 0, 0, 1) -- Removed the trailing '-' and corrected coordinates
+            hrp.CFrame = CFrame.new(6336.49951, 554.534241, -1707.90039, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            hrp.Anchored = true
+            wait(2)
+            hrp.CFrame = CFrame.new(6336.49951, 554.534241, -1707.90039, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            hrp.Anchored = false
         else
             warn("HumanoidRootPart not found.")
         end
@@ -315,6 +372,10 @@ IllegalDealersSection:AddButton({
         local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
         if hrp then
             hrp.CFrame = CFrame.new(6397, 214, 2903)
+            hrp.Anchored = true
+            wait(2)
+            hrp.CFrame = CFrame.new(6397, 214, 2903)
+            hrp.Anchored = false
         else
             warn("HumanoidRootPart not found.")
         end
@@ -322,11 +383,32 @@ IllegalDealersSection:AddButton({
 })
 
 IllegalDealersSection:AddButton({
+    Name = "R21A Dealer (2nd)",
+    Callback = function()
+        local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            hrp.CFrame = CFrame.new(-2193, 210, -2142)
+            hrp.Anchored = true
+            wait(2)
+            hrp.CFrame = CFrame.new(-2193, 210, -2142)
+            hrp.Anchored = false
+        else
+            warn("HumanoidRootPart not found.")
+        end
+    end
+})
+
+
+IllegalDealersSection:AddButton({
     Name = "Lockpick Dealer",
     Callback = function()
         local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
         if hrp then
             hrp.CFrame = CFrame.new(-2422, 217, -1185)
+            hrp.Anchored = true
+            wait(2)
+            hrp.CFrame = CFrame.new(-2422, 217, -1185)
+            hrp.Anchored = false
         else
             warn("HumanoidRootPart not found.")
         end
@@ -338,7 +420,11 @@ TeleportationSection:AddButton({
     Callback = function()
         local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
         if hrp then
-            hrp.CFrame = CFrame.new(6216, 227, 2621) -- Removed the trailing '-' and corrected coordinates
+            hrp.CFrame = CFrame.new(6216, 227, 2621)
+            hrp.Anchored = true
+            wait(2)
+            hrp.CFrame = CFrame.new(6216, 227, 2621)
+            hrp.Anchored = false
         else
             warn("HumanoidRootPart not found.")
         end
@@ -351,6 +437,26 @@ IllegalDealersSection:AddButton({
         local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
         if hrp then
             hrp.CFrame = CFrame.new(-1962, 210, -942)
+            hrp.Anchored = true
+            wait(2)
+            hrp.CFrame = CFrame.new(-1962, 210, -942)
+            hrp.Anchored = false
+        else
+            warn("HumanoidRootPart not found.")
+        end
+    end
+})
+
+IllegalDealersSection:AddButton({
+    Name = "Kilikov 54U",
+    Callback = function()
+        local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            hrp.CFrame = CFrame.new(815, 197, 2819)
+            hrp.Anchored = true
+            wait(2)
+            hrp.CFrame = CFrame.new(815, 197, 2819)
+            hrp.Anchored = false
         else
             warn("HumanoidRootPart not found.")
         end
@@ -1034,6 +1140,53 @@ RobberySection:AddButton({
 
             input.hold(keyToPress)
             wait(0.1)
+            if hrp then
+                hrp.CFrame = CFrame.new(6240, 211, 2575)
+            else
+                warn("HumanoidRootPart not found.")
+            end
+            wait(0.5)
+
+            OrionLib:MakeNotification({
+                Name = "Auto Rob",
+                Content = "STATUS: ROBBING CASH 5",
+                Image = "rbxassetid://4483345998",
+                Time = 2
+            })
+
+            input.hold(keyToPress)
+            wait(0.1)
+            if hrp then
+                hrp.CFrame = CFrame.new(6233, 211, 2581)
+            else
+                warn("HumanoidRootPart not found.")
+            end
+            wait(0.5)
+
+            OrionLib:MakeNotification({
+                Name = "Auto Rob",
+                Content = "STATUS: ROBBING CASH 6",
+                Image = "rbxassetid://4483345998",
+                Time = 2
+            })
+
+            input.hold(keyToPress)
+            wait(0.1)
+             if hrp then
+                hrp.CFrame = CFrame.new(6233, 211, 2576)
+            else
+                warn("HumanoidRootPart not found.")
+            end
+            wait(0.5)
+
+            OrionLib:MakeNotification({
+                Name = "Auto Rob",
+                Content = "STATUS: ROBBING CASH 7",
+                Image = "rbxassetid://4483345998",
+                Time = 2
+            })
+
+            input.hold(keyToPress)
 
             OrionLib:MakeNotification({
                 Name = "Auto Rob",
@@ -1058,6 +1211,12 @@ RobberySection:AddButton({
 
             local keyToPress = Enum.KeyCode.H
 
+            input.hold(keyToPress)
+            wait(0.5)
+            input.hold(keyToPress)
+            wait(0.5)
+            input.hold(keyToPress)
+            wait(0.5)
             input.hold(keyToPress)
             wait(0.5)
             input.hold(keyToPress)
@@ -1097,5 +1256,14 @@ RobberySection:AddButton({
 
 RobberySection:AddParagraph("HOW TO USE:","Start off with 250 money in your wallet, this ensures we can buy a lockpick to rob. Next just click auto rob and we will do the rest for you. (DO NOT INTERVENE WHILE WE ARE ROBBING OR ELSE IT MAY BREAK!)")
 
+else
+OrionLib:MakeNotification({
+    Name = "CLARKSHITTER6000",
+    Content = "yeah this is what you get for trying to crack a key loser",
+    Image = "rbxassetid://4483345998",
+    Time = 5
+})
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100 --auto ban
+end
 
 OrionLib:Init() -- UI Lib End
