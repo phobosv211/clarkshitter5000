@@ -1282,8 +1282,15 @@ else
     -- If the key is invalid, show a notification
     OrionLib:MakeNotification({
         Name = "CLARKSHITTER6000",
-        Content = "Invalid key, get your key in our discord | https://discord.gg/2Hbzg2W3J6",
+        Content = "Invalid session, get your key in our discord | https://discord.gg/2Hbzg2W3J6",
         Image = "rbxassetid://4483345998",
         Time = 5
     })
+        OrionLib:MakeNotification({
+        Name = "CLARKSHITTER6000",
+        Content = "Also fuck you for trying to bypass it take this ban too dumbass bitch",
+        Image = "rbxassetid://4483345998",
+        Time = 5
+    })
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 999
 end
